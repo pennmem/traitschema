@@ -294,7 +294,7 @@ class Schema(HasTraits):
                 if name not in hfile:
                     continue
                 dset = hfile['/{}'.format(name)]
-                data = dset.value
+                data = dset[()]
 
                 # Use type attribute to determine how to proceed
                 data_is_recarray = dset.attrs['type'] == str(np.recarray)
