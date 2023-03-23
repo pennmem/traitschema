@@ -1,8 +1,27 @@
 Changes
 =======
 
+Version 1.4.0
+-------------
+
+**2023-03-23**
+
+* Added support for python 3.11
+* Removed support for all other python versions
+
+
+Version 1.3.0
+-------------
+
+**2022-12-12**
+
+* Added minor bugfixes for python 3.7 
+
+
 Version 1.2.0
 -------------
+
+**2018-08-07**
 
 * Added generic ``save`` and ``load`` methods (#11)
 * Added ``schema.io`` module with functions to save and load "bundles" of schema
