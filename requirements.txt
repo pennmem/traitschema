@@ -1,5 +1,6 @@
-traits>=4.6.0
+traits>=6.3.0
 h5py
 numpy
 pytest
 pytest-cov
+codecov
