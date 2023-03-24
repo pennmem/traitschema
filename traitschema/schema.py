@@ -4,7 +4,7 @@ import json
 import os.path as osp
 
 import numpy as np
-from traits.api import HasTraits
+from traits.api import HasTraits, CStr
 
 
 try:
@@ -163,7 +163,7 @@ class Schema(HasTraits):
         filename : str
 
         """
-        npz = np.load(filename)
+        npz = np.load(filename, allow_pickle=True)
         attrs = {key: value for key, value in npz.items()}
         self = cls(**attrs)
         return self
@@ -298,6 +298,9 @@ class Schema(HasTraits):
 
                 # Use type attribute to determine how to proceed
                 data_is_recarray = dset.attrs['type'] == str(np.recarray)
+
+                if trait.is_trait_type(CStr):
+                    data = data.decode(encoding)
 
                 if trait.array is True and decode_string_arrays:
                     # Encode each element of an array containing bytes

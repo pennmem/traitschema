@@ -30,7 +30,7 @@ def sample_recarray():
 
 
 class SomeSchema(Schema):
-    x = Array(dtype=np.float)
+    x = Array(dtype=float)
     y = Array()
     z = ArrayOrNone()
     name = CStr()
@@ -46,7 +46,7 @@ def test_eq():
 @pytest.mark.parametrize('format', ['.npz', '.h5', '.json'])
 def test_save_load(format, tmpdir):
     x = np.random.random(100)
-    y = np.linspace(0, 100, 100, dtype=np.int)
+    y = np.linspace(0, 100, 100, dtype=int)
     z = None
     name = 'a name'
 
@@ -59,7 +59,7 @@ def test_save_load(format, tmpdir):
     assert_equal(x, loaded.x)
     assert_equal(y, loaded.y)
     assert_equal(z, loaded.z)
-    assert loaded.name == name
+    assert_equal(name, loaded.name)
 
 
 @pytest.mark.parametrize('mode', ['w', 'a'])
@@ -75,14 +75,14 @@ def test_to_hdf(mode, desc, compression, compression_opts, encoding, tmpdir,
         w = Float(desc=desc)
         x = Array(dtype=np.float64, desc=desc)
         y = Array(dtype=np.int32, desc=desc)
-        z = Array(dtype=np.unicode, desc=desc)
+        z = Array(dtype=np.unicode_, desc=desc)
     obj = MySchema(u=None,
                    v=sample_recarray,
                    w=0.01,
                    x=np.random.random(100),
                    y=np.random.random(100),
                    z=np.array([generate_random_string() for _ in range(100)],
-                              dtype=np.unicode))
+                              dtype=np.unicode_))
 
     filename = str(tmpdir.join('test.h5'))
 
@@ -99,7 +99,7 @@ def test_to_hdf(mode, desc, compression, compression_opts, encoding, tmpdir,
         call()
 
     with h5py.File(filename, 'r') as hfile:
-        assert_equal(hfile['/w'].value, obj.w)
+        assert_equal(hfile['/w'][()], obj.w)
         assert_equal(hfile['/x'][:], obj.x)
         assert_equal(hfile['/y'][:], obj.y)
         assert_equal([s.decode('utf8') for s in hfile['/z'][:]], obj.z)
@@ -181,7 +181,7 @@ def test_to_npz(compress, tmpdir, sample_recarray):
     path = str(tmpdir.join('test.npz'))
     obj.to_npz(path, compress=compress)
 
-    npz = np.load(path)
+    npz = np.load(path, allow_pickle=True)
     assert str(npz['name']) == 'test'
     assert_equal([1, 2, 3], npz['x'])
     assert_equal(sample_recarray, npz['y'])
