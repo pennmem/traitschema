@@ -3,6 +3,9 @@ language: generic
 env:
   - PYTHON_VERSION="3.11"
 
+os: linux
+dist: bionic
+
 notifications:
   email: false
 
