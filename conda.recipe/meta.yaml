@@ -18,7 +18,6 @@ requirements:
   build:
     - python {{ python }}
     - setuptools
-    - conda-build
     - numpy>=1.20
     - traits
     - invoke
