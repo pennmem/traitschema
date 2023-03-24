@@ -23,9 +23,8 @@ install:
   - conda info -a
   - conda create -q -n test-environment python=$PYTHON_VERSION
   - source activate test-environment
-  - conda install conda-build
-  - conda build your-conda-recipe
-  - conda install your-package --use-local
+  - pip install -r requirements.txt
+  - python setup.py install
 
 script:
   - python -m pytest
