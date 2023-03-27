@@ -24,7 +24,7 @@ install:
   - conda create -q -n test-environment python=$PYTHON_VERSION conda-build anaconda-client
   - source activate test-environment
   - python maint/build.py
-  - conda install --use-local traitschema
+  - conda install --use-local $(find build/linux-64 -type f -name "*.tar.bz2" | head -n1)
 
 script:
   - python -m pytest
