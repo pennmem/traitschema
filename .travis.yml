@@ -21,10 +21,10 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda create -q -n test-environment python=$PYTHON_VERSION
+  - conda create -q -n test-environment python=$PYTHON_VERSION conda-build anaconda-client
   - source activate test-environment
-  - pip install -r requirements.txt
-  - python setup.py install
+  - maint/build.sh
+  - conda install --use-local traitschema
 
 script:
   - python -m pytest
@@ -34,7 +34,7 @@ after_success:
 
 deploy:
   - provider: script
-    script: maint/deploy.sh
+    script: maint/conda_upload.sh
     on:
       tags: true
     skip_cleanup: true
