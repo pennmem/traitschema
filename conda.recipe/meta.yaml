@@ -23,6 +23,7 @@ requirements:
     - invoke
     - pytest
     - pytest-cov
+    - codecov
 
   run:
     - python {{ python }}
