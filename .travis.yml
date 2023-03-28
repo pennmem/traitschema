@@ -39,7 +39,7 @@ after_success:
 
 deploy:
   - provider: script
-    script: maint/conda_upload.sh
+    script: python maint/conda_upload.py
     on:
       tags: true
     skip_cleanup: true
